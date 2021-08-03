@@ -1,44 +1,14 @@
-let booksDb = require('./database');
+let mongoose = require('mongoose');
 
 //book model
-class BookModel{
-    constructor({title, author, type, yearOfPublication, description}){
-        this.title =title;
-        this.author = author;
-        this.type = type;
-        this.yearOfPublication = yearOfPublication;
-        this.description = description;
-        
+const BookSchema = new mongoose.Schema({
+title:String,
+author:String,
+type: String,
+yearOfPublication:String,
+description:String,
+});
 
-    }
-    save(){
-        booksDb.push(this)
-        return this;
-    }
-    static all(){
-        return booksDb
-    }
+const BookModel = mongoose.model('Book', BookSchema);
 
-    static update(updatedInfo ={} ){
-      booksDb =  booksDb.map(book =>{
-            if(book.name === updatedInfo.name){
-                return {...book, ...updatedInfo}
-            }
-            return book; 
-        }); 
-    }
-    static delete({name}){
-        let deletedbook = null;
-        booksDb= booksDb.filter( book =>{
-             if(book.name !== name){
-                 return true;
-             }
-             deletedbook= book;
-
-             return false;
-         });
-         return deletedbook;
-    }
-
-}
 module.exports = BookModel
